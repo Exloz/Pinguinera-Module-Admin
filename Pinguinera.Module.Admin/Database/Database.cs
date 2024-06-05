@@ -45,8 +45,8 @@ public partial class Database : DbContext, IDatabase
 
     public DbSet<User> Users { get; set; }
 
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //     => optionsBuilder.UseNpgsql("Host=viaduct.proxy.rlwy.net;Port=59980;Database=railway;Username=postgres;Password=yYcfUDUZCdlmsMgWhCbGgsmQDjuShBZO");
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => optionsBuilder.UseNpgsql("Host=viaduct.proxy.rlwy.net;Port=59980;Database=railway;Username=postgres;Password=yYcfUDUZCdlmsMgWhCbGgsmQDjuShBZO");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -344,6 +344,9 @@ public partial class Database : DbContext, IDatabase
                 .HasColumnType("character varying")
                 .HasColumnName("refreshToken");
             entity.Property(e => e.RegisterAt).HasColumnName("registerAt");
+            entity.Property(e => e.Role)
+                .HasColumnType("character varying")
+                .HasColumnName("role");
             entity.Property(e => e.Username)
                 .HasColumnType("character varying")
                 .HasColumnName("username");
