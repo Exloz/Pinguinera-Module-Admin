@@ -1,4 +1,6 @@
-﻿namespace pinguinera_final_module.Models.Persistence;
+﻿using pinguinera_final_module.Shared.Enums;
+
+namespace pinguinera_final_module.Models.Persistence;
 
 public partial class User
 {
@@ -13,6 +15,7 @@ public partial class User
     public string Password { get; set; } = null!;
 
     public DateOnly RegisterAt { get; set; }
+    public RoleType Role { get; set; }
 
     public virtual Admin? Admin { get; set; }
 
