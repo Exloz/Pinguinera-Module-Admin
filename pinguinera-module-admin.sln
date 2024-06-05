@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pinguinera-final-module", "pinguinera-final-module\pinguinera-final-module.csproj", "{B670350D-F262-4794-A253-1AA16149421A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B670350D-F262-4794-A253-1AA16149421A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B670350D-F262-4794-A253-1AA16149421A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B670350D-F262-4794-A253-1AA16149421A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B670350D-F262-4794-A253-1AA16149421A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
