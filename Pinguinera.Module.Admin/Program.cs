@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using pinguinera_final_module.Database;
 using pinguinera_final_module.Database.Interfaces;
+using pinguinera_final_module.Models.Repositories;
+using pinguinera_final_module.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,7 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Database>(options => options.UseNpgsql(builder.Configuration["SQLConnectionString"]));
 builder.Services.AddScoped<IDatabase, Database>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddAuthorization();
 builder.Services
