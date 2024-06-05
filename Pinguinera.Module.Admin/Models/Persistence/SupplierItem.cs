@@ -1,3 +1,4 @@
+
 ﻿namespace pinguinera_final_module.Models.Persistence;
 
 public partial class SupplierItem
@@ -22,3 +23,4 @@ public partial class SupplierItem
 
     public virtual Supplier Supplier { get; set; } = null!;
 }
+
