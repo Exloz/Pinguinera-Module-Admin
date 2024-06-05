@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using pinguinera_final_module.Database.Interfaces;
+using pinguinera_final_module.Models.DataTransferObjects;
 using pinguinera_final_module.Models.Persistence;
 using pinguinera_final_module.Models.Repositories;
 
@@ -13,7 +14,7 @@ public class UserService : IUserService {
         _userRepository = userRepository;
     }
 
-    public async Task<List<User>> GetAllUser() {
-        return await _userRepository.Users.ToListAsync();
+    public async Task<List<UserResponseDTO>> GetAllUser() {
+        var users = await _userRepository.Users.ToListAsync();
     }
 }

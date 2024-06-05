@@ -31,7 +31,6 @@
       <Folder Include="Database\Configuration\" />
       <Folder Include="Domain\Entities\" />
       <Folder Include="Domain\Factories\" />
-      <Folder Include="Models\DataTransferObjects\" />
     </ItemGroup>
 
 </Project>
