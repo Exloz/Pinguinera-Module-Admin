@@ -1,9 +1,54 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using pinguinera_final_module.Database;
+using pinguinera_final_module.Database.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options => {
+    options.SwaggerDoc("v1", new OpenApiInfo {
+        Version = "v1",
+        Title = "Pingüinera Admin API",
+        Description = "ASP.NET 8.0 Core Web API for managing admin of pinguinera"
+    });
+});
 
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<Database>(options => options.UseNpgsql(builder.Configuration["SQLConnectionString"]));
+builder.Services.AddScoped<IDatabase, Database>();
+
+builder.Services.AddAuthorization();
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(option =>
+    {
+        var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]));
+
+        option.RequireHttpsMetadata = false;
+
+        option.TokenValidationParameters = new TokenValidationParameters() {
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            IssuerSigningKey = signinKey,
+            ValidAudience = builder.Configuration["TokenIssuer"],
+            ValidIssuer = builder.Configuration["TokenIssuer"]
+        };
+    });
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
 
 var app = builder.Build();
 
@@ -13,8 +58,8 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
