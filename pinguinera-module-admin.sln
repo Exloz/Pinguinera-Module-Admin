@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pinguinera-final-module", "pinguinera-final-module\pinguinera-final-module.csproj", "{B670350D-F262-4794-A253-1AA16149421A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pinguinera.Module.Admin", "Pinguinera.Module.Admin\Pinguinera.Module.Admin.csproj", "{B670350D-F262-4794-A253-1AA16149421A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
