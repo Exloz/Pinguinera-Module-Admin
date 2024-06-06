@@ -62,8 +62,8 @@ namespace pinguinera_final_module.Controllers {
         }
 
         [HttpPut("UpdateUser/{id}")]
-        public async Task<ActionResult> UpdateUser([FromBody] UserRequestDTO userRequestDto, Guid id) {
-            var user = await _userService.UpdateUser(id, userRequestDto);
+        public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDTO userUpdateDto, Guid id) {
+            var user = await _userService.UpdateUser(id, userUpdateDto);
             try {
                 return StatusCode(StatusCodes.Status200OK, user);
 

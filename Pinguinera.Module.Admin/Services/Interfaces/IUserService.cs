@@ -9,6 +9,6 @@ public interface IUserService
     Task<UserResponseDTO> GetUserById(Guid id);
     Task DeleteUserById(Guid id);
     Task<UserResponseDTO> AddUser(UserRequestDTO userRequest);
-    Task<UserResponseDTO> UpdateUser(Guid id, UserRequestDTO userRequest);
+    Task<UserResponseDTO> UpdateUser(Guid id, UserUpdateDTO userUpdate);
     Task<Supplier> GetSupplierById(Guid id);
 }

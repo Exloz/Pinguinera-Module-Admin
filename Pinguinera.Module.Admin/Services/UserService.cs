@@ -82,16 +82,15 @@ public class UserService : IUserService {
         return UserMapper.MapToUserResponseDTO(user);
     }
 
-    public async Task<UserResponseDTO> UpdateUser(Guid id, UserRequestDTO userRequest) {
+    public async Task<UserResponseDTO> UpdateUser(Guid id, UserUpdateDTO userUpdate) {
 
         var user = await _userRepository.Users.FirstOrDefaultAsync(u => u.UserId == id);
 
         if (user == null) throw new AggregateException("User not found");
 
-        user.Username = userRequest.Username;
-        user.Email = userRequest.Email;
-        user.Password = userRequest.Password;
-        user.Role = userRequest.Role;
+        user.Username = userUpdate.Username;
+        user.Email = userUpdate.Email;
+        user.Role = userUpdate.Role;
 
         await _userRepository.SaveChangesAsync();
 
