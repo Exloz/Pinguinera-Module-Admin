@@ -1,7 +1,6 @@
-using cotizaciones.pinguinera.project.Models.DTOs;
-using cotizaciones.pinguinera.project.Models.Persistence;
+using pinguinera_final_module.Models.DataTransferObjects;
 
-namespace cotizaciones.pinguinera.project.Models.Repositories.Interfaces;
+namespace pinguinera_final_module.Models.Repositories.Interfaces;
 
 public interface ILiteratureRepository
 {

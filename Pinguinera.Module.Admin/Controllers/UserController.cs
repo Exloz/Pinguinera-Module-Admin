@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using pinguinera_final_module.Models.DataTransferObjects;
-using pinguinera_final_module.Models.Repositories;
+using pinguinera_final_module.Services.Interfaces;
 
 namespace pinguinera_final_module.Controllers {
     [Route("api/[controller]")]

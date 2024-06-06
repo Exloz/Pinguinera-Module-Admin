@@ -1,6 +1,6 @@
 using pinguinera_final_module.Shared.Enums;
 
-namespace cotizaciones.pinguinera.project.Models.Entities;
+namespace pinguinera_final_module.Domain.Entities;
 
 public abstract class SupplierItemEntity
 {

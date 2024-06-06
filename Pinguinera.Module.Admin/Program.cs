@@ -5,8 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using pinguinera_final_module.Database;
 using pinguinera_final_module.Database.Interfaces;
-using pinguinera_final_module.Models.Repositories;
 using pinguinera_final_module.Services;
+using pinguinera_final_module.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

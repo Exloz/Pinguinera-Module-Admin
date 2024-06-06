@@ -1,7 +1,4 @@
-using FluentValidation;
-using pinguinera_final_module.Shared.Enums;
-
-namespace cotizaciones.pinguinera.project.Models.DTOs;
+namespace pinguinera_final_module.Models.DataTransferObjects;
 
 public struct NovelSupplierDTO
 {

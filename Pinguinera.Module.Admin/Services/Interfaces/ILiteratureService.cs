@@ -1,6 +1,4 @@
-using cotizaciones.pinguinera.project.Models.DTOs;
-
-namespace cotizaciones.pinguinera.project.Services.Interfaces;
+namespace pinguinera_final_module.Services.Interfaces;
 
 public interface ILiteratureService
 {

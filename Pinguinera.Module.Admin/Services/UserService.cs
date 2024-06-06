@@ -2,7 +2,7 @@
 using pinguinera_final_module.Database.Interfaces;
 using pinguinera_final_module.Models.DataTransferObjects;
 using pinguinera_final_module.Models.Persistence;
-using pinguinera_final_module.Models.Repositories;
+using pinguinera_final_module.Services.Interfaces;
 using pinguinera_final_module.Services.Mapper;
 
 namespace pinguinera_final_module.Services;

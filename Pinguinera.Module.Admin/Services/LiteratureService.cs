@@ -1,9 +1,6 @@
-using cotizaciones.pinguinera.project.Database;
-using cotizaciones.pinguinera.project.Models.DTOs;
-using cotizaciones.pinguinera.project.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using pinguinera_final_module.Services.Interfaces;
 
-namespace cotizaciones.pinguinera.project.Services;
+namespace pinguinera_final_module.Services;
 
 public class LiteratureService : ILiteratureService
 {

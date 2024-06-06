@@ -1,9 +1,7 @@
-using cotizaciones.pinguinera.project.Database;
-using cotizaciones.pinguinera.project.Models.DTOs;
-using cotizaciones.pinguinera.project.Models.Persistence;
-using Microsoft.EntityFrameworkCore;
+using pinguinera_final_module.Models.DataTransferObjects;
+using pinguinera_final_module.Models.Repositories.Interfaces;
 
-namespace cotizaciones.pinguinera.project.Models.Repositories.Interfaces;
+namespace pinguinera_final_module.Models.Repositories;
 
 public class LiteratureRepository : ILiteratureRepository
 {
