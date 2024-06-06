@@ -40,7 +40,7 @@ public class SupplierItemService : ISupplierItemService
     {
         await _literatureRepository.VerifyUniqueTitle(payload.Title, supplierId);
 
-        var itemEntity = new SupplierItemEntity(payload.Title, payload.BasePrice, ItemType.BOOK);
+        var itemEntity = new SupplierItemEntity(payload.Title, payload.BasePrice, ItemType.NOVEL);
         itemEntity.CalculateSellPrice();
 
         var supplier = await _userService.GetSupplierById(supplierId);
