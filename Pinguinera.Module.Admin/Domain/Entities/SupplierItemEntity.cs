@@ -2,7 +2,7 @@ using pinguinera_final_module.Shared.Enums;
 
 namespace pinguinera_final_module.Domain.Entities;
 
-public abstract class SupplierItemEntity
+public class SupplierItemEntity
 {
     public string Title { get; set; }
     public double BasePrice { get; set; }
@@ -13,7 +13,7 @@ public abstract class SupplierItemEntity
     public ItemType Type { get; set; }
 
     
-    protected SupplierItemEntity(string title, double basePrice, ItemType type)
+    public SupplierItemEntity(string title, double basePrice, ItemType type)
     {
         Title = title;
         BasePrice = basePrice;

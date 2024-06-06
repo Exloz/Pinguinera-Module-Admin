@@ -8,5 +8,4 @@ public partial class NovelSupplierItem
 
     public string Genre { get; set; } = null!;
 
-    public virtual SupplierItem NovelSupplierItemNavigation { get; set; } = null!;
 }
