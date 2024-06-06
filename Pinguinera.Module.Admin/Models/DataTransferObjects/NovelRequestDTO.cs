@@ -1,14 +1,14 @@
 namespace pinguinera_final_module.Models.DataTransferObjects;
 
-public struct BookSupplierDTO
+public struct NovelRequestDTO
 {
     public string Title { get; set; }
     public string Author { get; set; }
     public double BasePrice { get; set; }
     public double SellPrice { get; set; }
-    public int Stock { get; set; }
-    public int Pages { get; set; }
-    public string KnowledgeArea { get; set; }
+    public int Quantity { get; set; }
+    public int SuggestedAge { get; set; }
+    public string Genre { get; set; }
 }
 
 // public class ItemValidator: AbstractValidator<NovelSupplierDTO>
