@@ -31,7 +31,7 @@ public class SupplierItemsController: ControllerBase
                 return StatusCode(StatusCodes.Status400BadRequest, new { Error = "Item couldn't be created" });
 
             }
-            return StatusCode(StatusCodes.Status200OK, true);
+            return StatusCode(StatusCodes.Status200OK, result);
         }
         catch (Exception e)
         {
