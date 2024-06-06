@@ -61,18 +61,18 @@ public class SupplierItemsController: ControllerBase
         }
     }
     
-    // [HttpGet("GetAll"), Authorize]
-    // public async Task<IActionResult> GetSupplierItems()
-    // {
-    //     try
-    //     {
-    //         var result = await _literatureService.GetItemLiteratures();
-    //         return StatusCode(StatusCodes.Status200OK, result);
-    //     }
-    //     catch (ArgumentException e)
-    //     {
-    //         return StatusCode(StatusCodes.Status503ServiceUnavailable, e.Message);
-    //     }
-    // }
+    [HttpGet("GetAll/{supplierId}")]
+    public async Task<IActionResult> GetSupplierItems(Guid supplierId)
+    {
+        try
+        {
+            var result = await _supplierItemService.GetSupplierItems(supplierId);
+            return StatusCode(StatusCodes.Status200OK, result);
+        }
+        catch (ArgumentException e)
+        {
+            return StatusCode(StatusCodes.Status503ServiceUnavailable, e.Message);
+        }
+    }
     
 }

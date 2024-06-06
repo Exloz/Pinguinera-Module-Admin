@@ -53,22 +53,17 @@ public class SupplierItemService : ISupplierItemService
         return responseDto;
     }
 
-    // public async Task<List<LiteratureDTOToUi>> GetItemLiteratures()
-    // {
-    //     var itemsLiteratureList = await _database.ItemLiterature.ToListAsync();
-    //     if (itemsLiteratureList is null || itemsLiteratureList.Count == 0)
-    //     {
-    //         throw new ArgumentException("There are no literature items registered");
-    //     }
-    //
-    //     var literatureDTOList = itemsLiteratureList.Select(item => new LiteratureDTOToUi()
-    //     {
-    //         ItemId = item.ItemId,
-    //         Title = item.Title,
-    //         GrossPrice = item.GrossPrice,
-    //         ItemType = item.Type
-    //     }).ToList();
-    //     
-    //     return literatureDTOList;
-    // }
+    public async Task<List<SupplierItemResDTO>> GetSupplierItems(Guid supplierId)
+    {
+        var itemsLiteratureList = await _literatureRepository.GetItemsBySupplier(supplierId);
+        if (itemsLiteratureList is null)
+        {
+            throw new ArgumentException("There are no literature items registered for this supplier");
+        }
+
+        var itemsBySupplier = itemsLiteratureList
+            .Select(i => _itemMapper.MapFromModelToItemResDto(i)).ToList();
+        
+        return itemsBySupplier;
+    }
 }
