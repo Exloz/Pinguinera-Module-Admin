@@ -1,10 +1,12 @@
 using System.Text;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using pinguinera_final_module.Database;
 using pinguinera_final_module.Database.Interfaces;
+using pinguinera_final_module.Models.DataTransferObjects;
 using pinguinera_final_module.Models.Repositories;
 using pinguinera_final_module.Models.Repositories.Interfaces;
 using pinguinera_final_module.Services;
@@ -27,6 +29,8 @@ builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISupplierItemRepository, SupplierItemRepository>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ISupplierItemService, SupplierItemService>();
+builder.Services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
+builder.Services.AddScoped<IValidator<UserRequestDTO>, UserRequestDTOValidator>();
 
 builder.Services.AddAuthorization();
 builder.Services

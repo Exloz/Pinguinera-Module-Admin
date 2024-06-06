@@ -73,9 +73,9 @@ public class UserService : IUserService {
 
         if (userRequest.Role == RoleType.SUPPLIER) {
             supplier.SupplierId = user.UserId;
+            await _userRepository.Suppliers.AddAsync(supplier);
         }
 
-        await _userRepository.Suppliers.AddAsync(supplier);
         await _userRepository.Users.AddAsync(user);
         await _userRepository.SaveChangesAsync();
 

@@ -1,17 +1,22 @@
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using pinguinera_final_module.Models.DataTransferObjects;
 using pinguinera_final_module.Services.Interfaces;
 
 namespace pinguinera_final_module.Controllers {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UserController : ControllerBase {
 
         private readonly IUserService _userService;
+        private readonly IValidator<UserRequestDTO> _validatorUserRequest;
+        private readonly IValidator<UserUpdateDTO> _validatorUserUpdate;
 
-        public UserController(IUserService userService) {
+        public UserController(IUserService userService, IValidator<UserRequestDTO> validatorUserRequest,
+            IValidator<UserUpdateDTO> validatorUserUpdate) {
             _userService = userService;
+            _validatorUserRequest = validatorUserRequest;
+            _validatorUserUpdate = validatorUserUpdate;
         }
 
         [HttpGet("GetAllUsers")]
@@ -52,25 +57,30 @@ namespace pinguinera_final_module.Controllers {
 
         [HttpPost("CreateUser")]
         public async Task<IActionResult> CreateUser([FromBody] UserRequestDTO userRequest) {
-            var user = await _userService.AddUser(userRequest);
+            var validate = await _validatorUserRequest.ValidateAsync(userRequest);
+            if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
+
             try {
+                var user = await _userService.AddUser(userRequest);
                 return StatusCode(StatusCodes.Status200OK, user);
             }
             catch (Exception e) {
-                return StatusCode(StatusCodes.Status400BadRequest, e.Message);
+                return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
             }
         }
 
         [HttpPut("UpdateUser/{id}")]
         public async Task<ActionResult> UpdateUser([FromBody] UserUpdateDTO userUpdateDto, Guid id) {
-            var user = await _userService.UpdateUser(id, userUpdateDto);
-            try {
-                return StatusCode(StatusCodes.Status200OK, user);
+            var validate = await _validatorUserUpdate.ValidateAsync(userUpdateDto);
+            if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
 
+            try {
+                var user = await _userService.UpdateUser(id, userUpdateDto);
+                return StatusCode(StatusCodes.Status200OK, user);
             }
             catch (Exception e) {
-                return StatusCode(StatusCodes.Status400BadRequest, e.Message);
-            };
+                return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
+            }
         }
     }
 }
