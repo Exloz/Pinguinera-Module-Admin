@@ -51,7 +51,7 @@ public partial class Database : DbContext, IDatabase
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=viaduct.proxy.rlwy.net;Port=59980;Database=railway;Username=postgres;Password=yYcfUDUZCdlmsMgWhCbGgsmQDjuShBZO");
+        => optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("SQLConnection"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
