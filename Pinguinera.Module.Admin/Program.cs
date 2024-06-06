@@ -5,6 +5,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using pinguinera_final_module.Database;
 using pinguinera_final_module.Database.Interfaces;
+using pinguinera_final_module.Models.Repositories;
+using pinguinera_final_module.Models.Repositories.Interfaces;
 using pinguinera_final_module.Services;
 using pinguinera_final_module.Services.Interfaces;
 
@@ -22,7 +24,9 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Database>(options => options.UseNpgsql(builder.Configuration["SQLConnectionString"]));
 builder.Services.AddScoped<IDatabase, Database>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ISupplierItemRepository, SupplierItemRepository>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ISupplierItemService, SupplierItemService>();
 
 builder.Services.AddAuthorization();
 builder.Services

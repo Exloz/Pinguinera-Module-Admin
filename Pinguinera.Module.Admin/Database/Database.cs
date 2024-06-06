@@ -297,13 +297,13 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<SupplierItem>(entity =>
         {
-            entity.HasKey(e => e.SupplierItemId).HasName("supplier_Item_pkey");
+            entity.HasKey(e => e.SupplierItemId).HasName("supplier_item_pkey");
 
             entity.ToTable("supplier_item");
 
             entity.Property(e => e.SupplierItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("supplierItemId");
+                .HasColumnName("supplier_item_id");
             entity.Property(e => e.Author)
                 .HasColumnType("character varying")
                 .HasColumnName("author");

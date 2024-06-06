@@ -10,15 +10,12 @@ namespace pinguinera_final_module.Services;
 public class SupplierItemService : ISupplierItemService
 {
     private readonly ISupplierItemRepository _literatureRepository;
-    private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SupplierItemMapper _itemMapper = new();
     private readonly IUserService _userService;
 
-    public SupplierItemService(ISupplierItemRepository literatureRepository,
-        IHttpContextAccessor httpContextAccessor, IUserService userService)
+    public SupplierItemService(ISupplierItemRepository literatureRepository, IUserService userService)
     {
         _literatureRepository = literatureRepository;
-        _httpContextAccessor = httpContextAccessor;
         _userService = userService;
     }
 
