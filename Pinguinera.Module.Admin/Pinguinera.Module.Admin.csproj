@@ -27,14 +27,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
       <Folder Include="Database\Configuration\" />
-      <Folder Include="Domain\Entities\" />
       <Folder Include="Domain\Factories\" />
-      <Folder Include="Models\DataTransferObjects\" />
-      <Folder Include="Models\Repositories\" />
-      <Folder Include="Services\" />
-      <Folder Include="Shared\Enums\" />
 
     </ItemGroup>
 
