@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen(options => {
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Database>(options => options.UseNpgsql(builder.Configuration["SQLConnectionString"]));
 builder.Services.AddScoped<IDatabase, Database>();
-builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddAuthorization();
 builder.Services

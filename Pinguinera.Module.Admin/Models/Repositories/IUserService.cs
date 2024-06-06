@@ -1,7 +1,12 @@
-﻿using pinguinera_final_module.Models.Persistence;
+﻿using pinguinera_final_module.Models.DataTransferObjects;
+using pinguinera_final_module.Models.Persistence;
 
 namespace pinguinera_final_module.Models.Repositories;
 
 public interface IUserService {
-    Task<List<User>> GetAllUser();
+    Task<List<UserResponseDTO>> GetAllUser();
+    Task<UserResponseDTO> GetUserById(Guid id);
+    Task DeleteUserById(Guid id);
+    Task<UserResponseDTO> AddUser(UserRequestDTO userRequest);
+    Task<UserResponseDTO> UpdateUser(Guid id, UserRequestDTO userRequest);
 }

@@ -33,4 +33,5 @@ public interface IDatabase {
       DbSet<SupplierItem> SupplierItems { get; set; }
 
       DbSet<User> Users { get; set; }
+      Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

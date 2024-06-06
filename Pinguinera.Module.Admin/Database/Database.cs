@@ -45,6 +45,11 @@ public partial class Database : DbContext, IDatabase
 
     public DbSet<User> Users { get; set; }
 
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("SQLConnection"));
 
@@ -329,11 +334,11 @@ public partial class Database : DbContext, IDatabase
         {
             entity.HasKey(e => e.UserId).HasName("User_pkey");
 
-            entity.ToTable("User");
+            entity.ToTable("user");
 
             entity.Property(e => e.UserId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("userId");
+                .HasColumnName("user_id");
             entity.Property(e => e.Email)
                 .HasColumnType("character varying")
                 .HasColumnName("email");
@@ -342,8 +347,8 @@ public partial class Database : DbContext, IDatabase
                 .HasColumnName("password");
             entity.Property(e => e.RefreshToken)
                 .HasColumnType("character varying")
-                .HasColumnName("refreshToken");
-            entity.Property(e => e.RegisterAt).HasColumnName("registerAt");
+                .HasColumnName("refresh_token");
+            entity.Property(e => e.RegisterAt).HasColumnName("registered_at");
             entity.Property(e => e.Role)
                 .HasColumnType("character varying")
                 .HasColumnName("role");
