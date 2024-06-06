@@ -8,5 +8,4 @@ public partial class BookSupplierItem
 
     public decimal Pages { get; set; }
 
-    public virtual SupplierItem BookSuplierItem { get; set; } = null!;
 }
