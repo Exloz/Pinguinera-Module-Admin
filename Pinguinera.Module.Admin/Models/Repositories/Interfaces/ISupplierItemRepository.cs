@@ -7,4 +7,5 @@ public interface ISupplierItemRepository
     Task VerifyUniqueTitle(string title, Guid supplierId);
     Task<int> Save(SupplierItem item);
     Task<List<SupplierItem>> GetItemsBySupplier(Guid supplierId);
+    Task<SupplierItem> GetItemById(Guid itemId);
 }

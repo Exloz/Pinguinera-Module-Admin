@@ -66,4 +66,15 @@ public class SupplierItemService : ISupplierItemService
         
         return itemsBySupplier;
     }
+    
+    public async Task<SupplierItemResDTO?> UpdateStock(Guid itemId, int quantitySold)
+    {
+        var supplierItem = await _literatureRepository.GetItemById(itemId);
+        supplierItem.Stock -= quantitySold;
+        if (await _literatureRepository.Save(supplierItem) == 0) return null;
+
+        var itemResDto = _itemMapper.MapFromModelToItemResDto(supplierItem);
+        return itemResDto;
+    }
+    
 }

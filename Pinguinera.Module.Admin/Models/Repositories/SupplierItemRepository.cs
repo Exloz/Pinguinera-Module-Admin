@@ -40,5 +40,15 @@ public class SupplierItemRepository : ISupplierItemRepository
         return items;
     }
     
+    public async Task<SupplierItem> GetItemById(Guid itemId)
+    {
+        var item = await _database.SupplierItems
+            .FirstOrDefaultAsync(i => i.SupplierItemId.Equals(itemId));
+        
+        if (item == null) throw new AggregateException("Supplier item not found");
+
+        return item;
+    }
+    
     
 }
