@@ -2,8 +2,10 @@
 using pinguinera_final_module.Database.Interfaces;
 using pinguinera_final_module.Models.DataTransferObjects;
 using pinguinera_final_module.Models.Persistence;
+using pinguinera_final_module.Services.Helpers;
 using pinguinera_final_module.Services.Interfaces;
 using pinguinera_final_module.Services.Mapper;
+using pinguinera_final_module.Shared.Enums;
 
 namespace pinguinera_final_module.Services;
 
@@ -28,6 +30,14 @@ public class UserService : IUserService {
         return UserMapper.MapToUserResponseDTO(user);
     }
 
+    public async Task<Supplier> GetSupplierById(Guid id) {
+        var supplier = await _userRepository.Suppliers.FirstOrDefaultAsync(u => u.SupplierId == id);
+
+        if (supplier == null) throw new AggregateException("User not found");
+
+        return supplier;
+    }
+
     public async Task DeleteUserById(Guid id) {
         var user = await _userRepository.Users.FirstOrDefaultAsync(u => u.UserId == id);
         Console.WriteLine(user);
@@ -40,15 +50,32 @@ public class UserService : IUserService {
     }
 
     public async Task<UserResponseDTO> AddUser(UserRequestDTO userRequest) {
-        var user = new User() {
+
+        var userCheck = await _userRepository.Users.FirstOrDefaultAsync(u => u.Email == userRequest.Email);
+        if (userCheck != null) throw new AggregateException("Email already exists");
+
+        byte[] salt = Hash.GenerateSalt();
+        var hashedPassword = Hash.GenerateHash(userRequest.Password, salt);
+        var base64Salt = Convert.ToBase64String(salt);
+        byte[] retrievedSalt = Convert.FromBase64String(base64Salt);
+
+        var user = new User {
             UserId = Guid.NewGuid(),
             Username = userRequest.Username,
             Email = userRequest.Email,
-            Password = userRequest.Password,
+            Password = hashedPassword,
+            Salt = retrievedSalt,
             RegisterAt = DateOnly.FromDateTime(DateTime.Today),
             Role = userRequest.Role
         };
 
+        var supplier = new Supplier();
+
+        if (userRequest.Role == RoleType.SUPPLIER) {
+            supplier.SupplierId = user.UserId;
+        }
+
+        await _userRepository.Suppliers.AddAsync(supplier);
         await _userRepository.Users.AddAsync(user);
         await _userRepository.SaveChangesAsync();
 
