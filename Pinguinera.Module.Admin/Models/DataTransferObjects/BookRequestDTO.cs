@@ -5,7 +5,6 @@ public struct BookRequestDTO
     public string Title { get; set; }
     public string Author { get; set; }
     public double BasePrice { get; set; }
-    public double SellPrice { get; set; }
     public int Quantity { get; set; }
     public int Pages { get; set; }
     public string KnowledgeArea { get; set; }

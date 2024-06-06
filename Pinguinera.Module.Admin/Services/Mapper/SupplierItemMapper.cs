@@ -29,13 +29,13 @@ public class SupplierItemMapper
     }
     
     public SupplierItem MapToItemModel(BookRequestDTO payload, 
-        User supplier, double sellPrice)
+        Supplier supplier, double sellPrice)
     {
         var itemId = Guid.NewGuid();
         return new SupplierItem
         {
             SupplierItemId = itemId,
-            SupplierId = supplier.UserId,
+            SupplierId = supplier.SupplierId,
             Title = payload.Title,
             Author = payload.Author,
             BasePrice = payload.BasePrice,

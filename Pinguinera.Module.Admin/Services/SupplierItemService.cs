@@ -38,6 +38,23 @@ public class SupplierItemService : ISupplierItemService
 
         return responseDto;
     }
+    
+    public async Task<SupplierItemResDTO?> AddSupplierItem(NovelRequestDTO payload, Guid supplierId)
+    {
+        await _literatureRepository.VerifyUniqueTitle(payload.Title, supplierId);
+
+        var itemEntity = new SupplierItemEntity(payload.Title, payload.BasePrice, ItemType.BOOK);
+        itemEntity.CalculateSellPrice();
+
+        var supplier = await _userService.GetSupplierById(supplierId);
+        var itemModel = _itemMapper.MapToItemModel(payload, supplier, itemEntity.SellPrice);
+        if (await _literatureRepository.Save(itemModel) == 0) return null;
+
+        var responseDto = _itemMapper.MapToSupplierItemResDto(payload);
+        responseDto.SellPrice = itemEntity.SellPrice;
+
+        return responseDto;
+    }
 
     // public async Task<List<LiteratureDTOToUi>> GetItemLiteratures()
     // {
