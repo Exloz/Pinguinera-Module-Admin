@@ -17,7 +17,7 @@ public class SupplierItemsController: ControllerBase
         _supplierItemService = supplierItemService;
     }
 
-    [HttpPost("AddBook/{supplierId}"), Authorize]
+    [HttpPost("AddBook/{supplierId}")]
     public async Task<IActionResult> AddSupplierItem( [FromBody] BookRequestDTO payload, Guid supplierId)
     {
         // var validate = await _itemValidator.ValidateAsync(payload);
@@ -39,7 +39,7 @@ public class SupplierItemsController: ControllerBase
         }
     }
     
-    [HttpPost("AddNovel/{supplierId}"), Authorize]
+    [HttpPost("AddNovel/{supplierId}")]
     public async Task<IActionResult> AddSupplierItem( [FromBody] NovelRequestDTO payload, Guid supplierId)
     {
         // var validate = await _itemValidator.ValidateAsync(payload);

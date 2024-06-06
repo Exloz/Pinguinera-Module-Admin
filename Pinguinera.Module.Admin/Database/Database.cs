@@ -51,7 +51,7 @@ public partial class Database : DbContext, IDatabase
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("SQLConnection"));
+        => optionsBuilder.UseNpgsql("Host=viaduct.proxy.rlwy.net;Port=59980;Database=railway;Username=postgres;Password=yYcfUDUZCdlmsMgWhCbGgsmQDjuShBZO");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -281,9 +281,9 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<Supplier>(entity =>
         {
-            entity.HasKey(e => e.SupplierId).HasName("Supplier_pkey");
+            entity.HasKey(e => e.SupplierId).HasName("supplier_pkey");
 
-            entity.ToTable("Supplier");
+            entity.ToTable("supplier");
 
             entity.Property(e => e.SupplierId)
                 .HasDefaultValueSql("uuid_generate_v4()")
