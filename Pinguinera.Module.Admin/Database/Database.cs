@@ -109,16 +109,16 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<BookSupplierItem>(entity =>
         {
-            entity.HasKey(e => e.BookSuplierItemId).HasName("BookSupplierItem_pkey");
+            entity.HasKey(e => e.BookSuplierItemId).HasName("book_supplier_Item_pkey");
 
-            entity.ToTable("BookSupplierItem");
+            entity.ToTable("book_supplier_item");
 
             entity.Property(e => e.BookSuplierItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("bookSuplierItemId");
+                .HasColumnName("book_supplier_item_id");
             entity.Property(e => e.KnowledgeArea)
                 .HasColumnType("character varying")
-                .HasColumnName("knowledgeArea");
+                .HasColumnName("knowledge_area");
             entity.Property(e => e.Pages).HasColumnName("pages");
 
            });
@@ -210,17 +210,17 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<NovelSupplierItem>(entity =>
         {
-            entity.HasKey(e => e.NovelSupplierItemId).HasName("NovelSupplierItem_pkey");
+            entity.HasKey(e => e.NovelSupplierItemId).HasName("novel_supplier_item_pkey");
 
-            entity.ToTable("NovelSupplierItem");
+            entity.ToTable("novel_supplier_item");
 
             entity.Property(e => e.NovelSupplierItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("novelSupplierItemId");
+                .HasColumnName("novel_supplier_item_id");
             entity.Property(e => e.Genre)
                 .HasColumnType("character varying")
                 .HasColumnName("genre");
-            entity.Property(e => e.SuggestedAge).HasColumnName("suggestedAge");
+            entity.Property(e => e.SuggestedAge).HasColumnName("suggested_age");
         });
 
         modelBuilder.Entity<Quote>(entity =>
@@ -287,19 +287,19 @@ public partial class Database : DbContext, IDatabase
 
             entity.Property(e => e.SupplierId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("supplierId");
+                .HasColumnName("supplier_id");
 
             entity.HasOne(d => d.SupplierNavigation).WithOne(p => p.Supplier)
                 .HasForeignKey<Supplier>(d => d.SupplierId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("supplierId");
+                .HasConstraintName("supplier_id");
         });
 
         modelBuilder.Entity<SupplierItem>(entity =>
         {
-            entity.HasKey(e => e.SupplierItemId).HasName("SupplierItem_pkey");
+            entity.HasKey(e => e.SupplierItemId).HasName("supplier_Item_pkey");
 
-            entity.ToTable("SupplierItem");
+            entity.ToTable("supplier_item");
 
             entity.Property(e => e.SupplierItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
@@ -307,10 +307,10 @@ public partial class Database : DbContext, IDatabase
             entity.Property(e => e.Author)
                 .HasColumnType("character varying")
                 .HasColumnName("author");
-            entity.Property(e => e.BasePrice).HasColumnName("basePrice");
-            entity.Property(e => e.SellPrice).HasColumnName("sellPrice");
+            entity.Property(e => e.BasePrice).HasColumnName("base_price");
+            entity.Property(e => e.SellPrice).HasColumnName("sell_price");
             entity.Property(e => e.Stock).HasColumnName("stock");
-            entity.Property(e => e.SupplierId).HasColumnName("supplierId");
+            entity.Property(e => e.SupplierId).HasColumnName("supplier_id");
             entity.Property(e => e.Title)
                 .HasColumnType("character varying")
                 .HasColumnName("title");
@@ -318,7 +318,7 @@ public partial class Database : DbContext, IDatabase
             entity.HasOne(d => d.Supplier).WithMany(p => p.SupplierItems)
                 .HasForeignKey(d => d.SupplierId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("supplierId");
+                .HasConstraintName("supplier_id");
             
             entity.HasOne(d => d.BookSupplierItem)
                 .WithOne()
