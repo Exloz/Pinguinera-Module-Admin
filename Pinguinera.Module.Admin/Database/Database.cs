@@ -345,6 +345,9 @@ public partial class Database : DbContext, IDatabase
             entity.Property(e => e.Password)
                 .HasColumnType("character varying")
                 .HasColumnName("password");
+            entity.Property(e => e.Salt)
+                .HasColumnType("character varying")
+                .HasColumnName("salt");
             entity.Property(e => e.RefreshToken)
                 .HasColumnType("character varying")
                 .HasColumnName("refresh_token");
