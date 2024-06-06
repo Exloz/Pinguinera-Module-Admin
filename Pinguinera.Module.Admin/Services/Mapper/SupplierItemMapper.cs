@@ -87,4 +87,17 @@ public class SupplierItemMapper
         };
 
     }
+    
+    public  SupplierItemResDTO MapFromModelToItemResDto(SupplierItem itemModel)
+    {
+        var type = itemModel.BookSupplierItem is null ? ItemType.NOVEL : ItemType.BOOK;
+        return new SupplierItemResDTO
+        {
+            Title = itemModel.Title,
+            Author = itemModel.Author,
+            SellPrice = itemModel.SellPrice,
+            Stock = (int) Math.Round(itemModel.Stock, 0),
+            ItemType = type
+        };
+    }
 }

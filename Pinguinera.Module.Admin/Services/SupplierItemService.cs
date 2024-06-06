@@ -40,7 +40,7 @@ public class SupplierItemService : ISupplierItemService
     {
         await _literatureRepository.VerifyUniqueTitle(payload.Title, supplierId);
 
-        var itemEntity = new SupplierItemEntity(payload.Title, payload.BasePrice, ItemType.BOOK);
+        var itemEntity = new SupplierItemEntity(payload.Title, payload.BasePrice, ItemType.NOVEL);
         itemEntity.CalculateSellPrice();
 
         var supplier = await _userService.GetSupplierById(supplierId);
@@ -53,22 +53,28 @@ public class SupplierItemService : ISupplierItemService
         return responseDto;
     }
 
-    // public async Task<List<LiteratureDTOToUi>> GetItemLiteratures()
-    // {
-    //     var itemsLiteratureList = await _database.ItemLiterature.ToListAsync();
-    //     if (itemsLiteratureList is null || itemsLiteratureList.Count == 0)
-    //     {
-    //         throw new ArgumentException("There are no literature items registered");
-    //     }
-    //
-    //     var literatureDTOList = itemsLiteratureList.Select(item => new LiteratureDTOToUi()
-    //     {
-    //         ItemId = item.ItemId,
-    //         Title = item.Title,
-    //         GrossPrice = item.GrossPrice,
-    //         ItemType = item.Type
-    //     }).ToList();
-    //     
-    //     return literatureDTOList;
-    // }
+    public async Task<List<SupplierItemResDTO>> GetSupplierItems(Guid supplierId)
+    {
+        var itemsLiteratureList = await _literatureRepository.GetItemsBySupplier(supplierId);
+        if (itemsLiteratureList is null)
+        {
+            throw new ArgumentException("There are no literature items registered for this supplier");
+        }
+
+        var itemsBySupplier = itemsLiteratureList
+            .Select(i => _itemMapper.MapFromModelToItemResDto(i)).ToList();
+        
+        return itemsBySupplier;
+    }
+    
+    public async Task<SupplierItemResDTO?> UpdateStock(Guid itemId, int quantitySold)
+    {
+        var supplierItem = await _literatureRepository.GetItemById(itemId);
+        supplierItem.Stock -= quantitySold;
+        if (await _literatureRepository.Save(supplierItem) == 0) return null;
+
+        var itemResDto = _itemMapper.MapFromModelToItemResDto(supplierItem);
+        return itemResDto;
+    }
+    
 }

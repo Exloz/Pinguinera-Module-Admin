@@ -32,21 +32,23 @@ public class SupplierItemRepository : ISupplierItemRepository
         return await _database.SaveChangesAsync();
     }
 
-    // public async Task<List<SupplierItem>> FindItemsInDb(PurchaseDTO payload)
-    // {
-    //     List<SupplierItem> itemsLiteratureList = new();
-    //     foreach (var x in payload.ItemIdList)
-    //     {
-    //         for (int i = 0; i < x.Amount; i++)
-    //         {
-    //             var itemDatabase = await _database.ItemLiterature.FindAsync(x.Id);
-    //             itemsLiteratureList.Add(itemDatabase);
-    //         }
-    //     }
-    //
-    //     itemsLiteratureList.RemoveAll(item => item == null);
-    //     return itemsLiteratureList;
-    // }
+    public async Task<List<SupplierItem>> GetItemsBySupplier(Guid supplierId)
+    {
+        var items = await  _database.SupplierItems
+            .Where(i => i.SupplierId.Equals(supplierId)).ToListAsync();
+
+        return items;
+    }
+    
+    public async Task<SupplierItem> GetItemById(Guid itemId)
+    {
+        var item = await _database.SupplierItems
+            .FirstOrDefaultAsync(i => i.SupplierItemId.Equals(itemId));
+        
+        if (item == null) throw new AggregateException("Supplier item not found");
+
+        return item;
+    }
     
     
 }
