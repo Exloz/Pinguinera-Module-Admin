@@ -10,7 +10,6 @@ public static class UserMapper {
                 UserId = user.UserId,
                 Username = user.Username,
                 Email = user.Email,
-                Password = user.Password,
                 Role = user.Role
         };
     }
