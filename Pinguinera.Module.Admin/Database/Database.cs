@@ -224,15 +224,15 @@ public partial class Database : DbContext, IDatabase
 
             entity.Property(e => e.QuoteId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("quoteId");
-            entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
+                .HasColumnName("quote_id");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.RetailOverPrice).HasColumnName("retail_over_price");
             entity.Property(e => e.SeniorityDiscount).HasColumnName("seniority_discount");
             entity.Property(e => e.TotalPrice).HasColumnName("total_price");
             entity.Property(e => e.Type)
                 .HasColumnType("character varying")
                 .HasColumnName("type");
-            entity.Property(e => e.TypeDiscount).HasColumnName("typeDiscount");
+            entity.Property(e => e.TypeDiscount).HasColumnName("type_discount");
         });
 
         modelBuilder.Entity<QuoteSupplierItem>(entity =>

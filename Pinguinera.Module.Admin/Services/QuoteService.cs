@@ -43,11 +43,13 @@ public class QuoteService : IQuoteService
 
         var quoteModel = _quoteMapper.MapToQuoteModel(quoteEntity);
 
-        var tasks = SaveQuoteItemsRegisters(payload, itemsModelList, quoteModel);
-        await Task.WhenAll(tasks);
-
         if (await _quoteRepository.Save(quoteModel) == 0) throw new Exception("Error saving quote");
         var quoteResponseDto = _quoteMapper.MapToQuoteResDto(quoteEntity, quoteModel.QuoteId);
+        
+        quoteModel = await _quoteRepository.GetQuoteById(quoteModel.QuoteId);
+        
+        var tasks = SaveQuoteItemsRegisters(payload, itemsModelList, quoteModel);
+        await Task.WhenAll(tasks);
 
         var itemResDtoList = itemsModelList
             .Select(i =>
@@ -101,6 +103,9 @@ public class QuoteService : IQuoteService
         {
             var id = item.Id;
             var itemModel = itemsModelList.FirstOrDefault(i => i.SupplierItemId.Equals(id));
+            
+            if(itemModel == null) throw new ArgumentException("No item found for the provided item ID.");
+            
             var quoteSupplierItem = _quoteMapper.MapToQuoteSupplierItem(quoteModel, itemModel, item.Amount);
             var itemSaved = await _quoteRepository.Save(quoteSupplierItem);
 

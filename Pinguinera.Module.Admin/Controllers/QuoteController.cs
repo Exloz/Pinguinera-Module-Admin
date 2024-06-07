@@ -19,24 +19,26 @@ namespace pinguinera_final_module.Controllers
             _quoteValidator = quoteValidator;
         }
 
-        [HttpPost("/{supplierId}")]
+        [HttpPost("request/{supplierId}")]
         public async Task<IActionResult> CalculateQuoteValue([FromBody] QuoteRequestDTO payload,
             Guid supplierId)
         {
             var validate = await _quoteValidator.ValidateAsync(payload);
             if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
-            try
-            {
-                var result = await _quoteService.CalculateQuoteValue(payload, supplierId);
-                return StatusCode(StatusCodes.Status200OK, result);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status400BadRequest, e.Message);
-            }
+            var result = await _quoteService.CalculateQuoteValue(payload, supplierId);
+            return StatusCode(StatusCodes.Status200OK, result);
+            // try
+            // {
+            //     var result = await _quoteService.CalculateQuoteValue(payload, supplierId);
+            //     return StatusCode(StatusCodes.Status200OK, result);
+            // }
+            // catch (Exception e)
+            // {
+            //     return StatusCode(StatusCodes.Status400BadRequest, e.Message);
+            // }
         }
         
-        [HttpGet("/{quoteId}")]
+        [HttpGet("confirm/{quoteId}")]
         public async Task<IActionResult> ProcessSaleConfirmation([FromQuery] bool confirmed,
             Guid quoteId)
         {

@@ -8,10 +8,11 @@ namespace pinguinera_final_module.Services.Mapper;
 
 public class SupplierItemMapper
 {
-    public SupplierItemResDTO MapToSupplierItemResDto(BookRequestDTO payload)
+    public SupplierItemResDTO MapToSupplierItemResDto(BookRequestDTO payload, Guid itemId)
     {
         return new SupplierItemResDTO
         {
+            Id = itemId,
             Title = payload.Title,
             Author = payload.Author,
             Stock = payload.Quantity,
@@ -19,10 +20,11 @@ public class SupplierItemMapper
         };
     }
 
-    public SupplierItemResDTO MapToSupplierItemResDto(NovelRequestDTO payload)
+    public SupplierItemResDTO MapToSupplierItemResDto(NovelRequestDTO payload, Guid itemId)
     {
         return new SupplierItemResDTO
         {
+            Id = itemId,
             Title = payload.Title,
             Author = payload.Author,
             Stock = payload.Quantity,

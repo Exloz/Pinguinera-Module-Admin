@@ -31,7 +31,7 @@ public class SupplierItemService : ISupplierItemService
         var itemModel = _itemMapper.MapToItemModel(payload, supplier, itemEntity.SellPrice);
         if (await _supplierItemRepository.Save(itemModel) == 0) return null;
 
-        var responseDto = _itemMapper.MapToSupplierItemResDto(payload);
+        var responseDto = _itemMapper.MapToSupplierItemResDto(payload, itemModel.SupplierItemId);
         responseDto.SellPrice = itemEntity.SellPrice;
 
         return responseDto;
@@ -48,7 +48,7 @@ public class SupplierItemService : ISupplierItemService
         var itemModel = _itemMapper.MapToItemModel(payload, supplier, itemEntity.SellPrice);
         if (await _supplierItemRepository.Save(itemModel) == 0) return null;
 
-        var responseDto = _itemMapper.MapToSupplierItemResDto(payload);
+        var responseDto = _itemMapper.MapToSupplierItemResDto(payload, itemModel.SupplierItemId);
         responseDto.SellPrice = itemEntity.SellPrice;
 
         return responseDto;
