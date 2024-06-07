@@ -40,18 +40,21 @@ builder.Services.AddScoped<IValidator<UserRequestDTO>, UserRequestDTOValidator>(
 builder.Services.AddAuthorization();
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(option =>
+    .AddJwtBearer(options =>
     {
-        var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]));
+        var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+        var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
 
-        option.RequireHttpsMetadata = false;
-
-        option.TokenValidationParameters = new TokenValidationParameters() {
+        options.RequireHttpsMetadata = false;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
             ValidateIssuer = true,
+            ValidateAudience = true,
             ValidateLifetime = true,
-            IssuerSigningKey = signinKey,
-            ValidAudience = builder.Configuration["TokenIssuer"],
-            ValidIssuer = builder.Configuration["TokenIssuer"]
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = signinKey
         };
     });
 
