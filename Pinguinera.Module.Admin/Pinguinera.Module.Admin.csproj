@@ -28,9 +28,6 @@
 
     <ItemGroup>
       <Folder Include="Database\Configuration\" />
-      <Folder Include="Domain\Factories\" />
-      <Folder Include="Models\Repositories\" />
-      <Folder Include="Shared\Enums\" />
 
 
     </ItemGroup>

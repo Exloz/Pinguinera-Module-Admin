@@ -1,5 +1,6 @@
 using pinguinera_final_module.Domain.Entities;
 using pinguinera_final_module.Models.DataTransferObjects;
+using pinguinera_final_module.Models.Persistence;
 using pinguinera_final_module.Models.Repositories.Interfaces;
 using pinguinera_final_module.Services.Interfaces;
 using pinguinera_final_module.Services.Mapper;
@@ -66,11 +67,33 @@ public class SupplierItemService : ISupplierItemService
         
         return itemsBySupplier;
     }
-    
+
+    public async Task<List<SupplierItem>> GetItemsById(QuoteRequestDto payload)
+    {
+        List<SupplierItem> itemsList = [];
+        foreach (var x in payload.ItemIdList)
+        {
+            for (var i = 0; i < x.Amount; i++)
+            {
+                var supplierItem = await _literatureRepository.GetItemById(x.Id);
+                itemsList.Add(supplierItem);
+            }
+        }
+
+        itemsList.RemoveAll(item => item == null);
+        return itemsList;
+    }
+
     public async Task<SupplierItemResDTO?> UpdateStock(Guid itemId, int quantitySold)
     {
         var supplierItem = await _literatureRepository.GetItemById(itemId);
         supplierItem.Stock -= quantitySold;
+
+        if (supplierItem.Stock < 0)
+        {
+            throw new ArgumentException("Unable to complete the sale due to insufficient stock"); 
+        }
+        
         if (await _literatureRepository.Save(supplierItem) == 0) return null;
 
         var itemResDto = _itemMapper.MapFromModelToItemResDto(supplierItem);

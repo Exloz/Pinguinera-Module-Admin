@@ -1,4 +1,6 @@
 using System.Text;
+using cotizaciones.pinguinera.project.Models.Factories;
+using cotizaciones.pinguinera.project.Models.Factories.Interfaces;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -27,8 +29,11 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<Database>(options => options.UseNpgsql(builder.Configuration["SQLConnectionString"]));
 builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISupplierItemRepository, SupplierItemRepository>();
+builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
+builder.Services.AddScoped<IQuoteFactory, QuoteFactory>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ISupplierItemService, SupplierItemService>();
+builder.Services.AddTransient<IQuoteService, QuoteService>();
 builder.Services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
 builder.Services.AddScoped<IValidator<UserRequestDTO>, UserRequestDTOValidator>();
 

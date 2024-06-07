@@ -4,6 +4,7 @@ namespace pinguinera_final_module.Models.DataTransferObjects;
 
 public struct SupplierItemResDTO()
 {
+    public Guid Id { get; set; }
     public string Title { get; set; }
     public string Author { get; set; }
     public double SellPrice { get; set; }
