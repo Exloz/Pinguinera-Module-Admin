@@ -37,6 +37,9 @@ builder.Services.AddTransient<ISupplierItemService, SupplierItemService>();
 builder.Services.AddTransient<IQuoteService, QuoteService>();
 builder.Services.AddScoped<IValidator<UserUpdateDTO>, UserUpdateDTOValidator>();
 builder.Services.AddScoped<IValidator<UserRequestDTO>, UserRequestDTOValidator>();
+builder.Services.AddScoped<IValidator<BookRequestDTO>, BookValidator>();
+builder.Services.AddScoped<IValidator<NovelRequestDTO>, NovelValidator>();
+builder.Services.AddScoped<IValidator<QuoteRequestDTO>, QuoteValidator>();
 
 builder.Services.AddAuthorization();
 builder.Services

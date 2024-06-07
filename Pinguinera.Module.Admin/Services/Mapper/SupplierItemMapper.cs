@@ -102,10 +102,10 @@ public class SupplierItemMapper
         };
     }
 
-    public QuoteItemResDto MapToQuoteItemResDto(SupplierItem itemModel, SupplierItemEntity itemEntity)
+    public QuoteItemResDTO MapToQuoteItemResDto(SupplierItem itemModel, SupplierItemEntity itemEntity)
     {
         var type = itemModel.BookSupplierItem is null ? ItemType.NOVEL : ItemType.BOOK;
-        return new QuoteItemResDto
+        return new QuoteItemResDTO
         {
             Title = itemModel.Title,
             ItemType = type,
