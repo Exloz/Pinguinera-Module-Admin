@@ -1,6 +1,8 @@
+using pinguinera_final_module.Domain.Entities;
 using pinguinera_final_module.Models.DataTransferObjects;
 using pinguinera_final_module.Models.Persistence;
 using pinguinera_final_module.Shared.Enums;
+using WebApplication1.DTOs;
 
 namespace pinguinera_final_module.Services.Mapper;
 
@@ -93,11 +95,37 @@ public class SupplierItemMapper
         var type = itemModel.BookSupplierItem is null ? ItemType.NOVEL : ItemType.BOOK;
         return new SupplierItemResDTO
         {
+            Id = itemModel.SupplierItemId,
             Title = itemModel.Title,
             Author = itemModel.Author,
             SellPrice = itemModel.SellPrice,
             Stock = (int) Math.Round(itemModel.Stock, 0),
             ItemType = type
         };
+    }
+    
+    public  QuoteItemResDto MapToQuoteItemResDto(SupplierItem itemModel, SupplierItemEntity itemEntity)
+    {
+        var type = itemModel.BookSupplierItem is null ? ItemType.NOVEL : ItemType.BOOK;
+        return new QuoteItemResDto
+        {
+            Title = itemModel.Title,
+            ItemType = type,
+            BasePrice = itemModel.SellPrice,
+            PriceIncrement = itemEntity.PriceIncrement,
+            PriceDiscount = itemEntity.PriceDiscount,
+            Price = itemEntity.FinalPrice
+        };
+
+    }
+    
+    public  SupplierItemEntity MapFromModelToItemEntity(SupplierItem itemModel)
+    {
+        return new SupplierItemEntity
+        (
+            itemModel.Title,
+            itemModel.BasePrice,
+            itemModel.SellPrice
+        );
     }
 }
