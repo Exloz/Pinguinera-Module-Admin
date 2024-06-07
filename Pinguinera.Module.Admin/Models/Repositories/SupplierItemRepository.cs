@@ -35,7 +35,10 @@ public class SupplierItemRepository : ISupplierItemRepository
     public async Task<List<SupplierItem>> GetItemsBySupplier(Guid supplierId)
     {
         var items = await  _database.SupplierItems
-            .Where(i => i.SupplierId.Equals(supplierId)).ToListAsync();
+            .Where(i => i.SupplierId.Equals(supplierId))
+            .Include(i => i.BookSupplierItem)
+            .Include(i => i.NovelSupplierItem)
+            .ToListAsync();
 
         return items;
     }
@@ -43,6 +46,8 @@ public class SupplierItemRepository : ISupplierItemRepository
     public async Task<SupplierItem> GetItemById(Guid itemId)
     {
         var item = await _database.SupplierItems
+            .Include(i => i.BookSupplierItem)
+            .Include(i => i.NovelSupplierItem)
             .FirstOrDefaultAsync(i => i.SupplierItemId.Equals(itemId));
         
         if (item == null) throw new AggregateException("Supplier item not found");

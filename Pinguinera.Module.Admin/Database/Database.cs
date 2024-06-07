@@ -49,11 +49,11 @@ public partial class Database : DbContext, IDatabase
     {
         return base.SaveChangesAsync(cancellationToken);
     }
-    
-    
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseNpgsql("Host=roundhouse.proxy.rlwy.net;Port=53251;Database=railway;Username=postgres;Password=BowtptroFIuqlYAHdzutFUmNtVLouAfh");
+        => optionsBuilder.UseNpgsql(
+            "Host=roundhouse.proxy.rlwy.net;Port=53251;Database=railway;Username=postgres;Password=BowtptroFIuqlYAHdzutFUmNtVLouAfh");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -91,18 +91,19 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<BookLibraryItem>(entity =>
         {
-            entity.HasKey(e => e.BookLibraryItemId).HasName("BookLibraryItem_pkey");
+            entity.HasKey(e => e.BookLibraryItemId).HasName("book_library_item_pkey");
 
-            entity.ToTable("BookLibraryItem");
+            entity.ToTable("book_library_item");
 
             entity.Property(e => e.BookLibraryItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("bookLibraryItemId");
+                .HasColumnName("book_library_item_id");
             entity.Property(e => e.KnowledgeArea)
                 .HasColumnType("character varying")
-                .HasColumnName("knowledgeArea");
+                .HasColumnName("knowledge_area");
             entity.Property(e => e.Pages).HasColumnName("pages");
-
+            
+            
         });
 
         modelBuilder.Entity<BookSupplierItem>(entity =>
@@ -118,26 +119,26 @@ public partial class Database : DbContext, IDatabase
                 .HasColumnType("character varying")
                 .HasColumnName("knowledge_area");
             entity.Property(e => e.Pages).HasColumnName("pages");
-
-           });
+        });
 
         modelBuilder.Entity<LibraryItem>(entity =>
         {
-            entity.HasKey(e => e.LibraryItemId).HasName("LibraryItem_pkey");
+            entity.HasKey(e => e.LibraryItemId).HasName("library_item_pkey");
 
-            entity.ToTable("LibraryItem");
+            entity.ToTable("library_item");
 
             entity.Property(e => e.LibraryItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("libraryItemId");
+                .HasColumnName("library_item_id");
             entity.Property(e => e.Author)
                 .HasColumnType("character varying")
                 .HasColumnName("author");
-            entity.Property(e => e.BorrowedQuantity).HasColumnName("borrowedQuantity");
+            entity.Property(e => e.BorrowedQuantity).HasColumnName("borrowed_quantity");
             entity.Property(e => e.Stock).HasColumnName("stock");
             entity.Property(e => e.Title)
                 .HasColumnType("character varying")
                 .HasColumnName("title");
+            
         });
 
         modelBuilder.Entity<LibraryItemLoan>(entity =>
@@ -188,17 +189,17 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<NovelLibraryItem>(entity =>
         {
-            entity.HasKey(e => e.NovelLibraryItemId).HasName("NovelLibraryItem_pkey");
+            entity.HasKey(e => e.NovelLibraryItemId).HasName("novel_library_item_pkey");
 
-            entity.ToTable("NovelLibraryItem");
+            entity.ToTable("novel_library_item");
 
             entity.Property(e => e.NovelLibraryItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("novelLibraryItem");
+                .HasColumnName("novel_library_item");
             entity.Property(e => e.Genre)
                 .HasColumnType("character varying")
                 .HasColumnName("genre");
-            entity.Property(e => e.SuggestedAge).HasColumnName("suggestedAge");
+            entity.Property(e => e.SuggestedAge).HasColumnName("suggested_age");
         });
 
         modelBuilder.Entity<NovelSupplierItem>(entity =>
@@ -313,7 +314,7 @@ public partial class Database : DbContext, IDatabase
                 .HasForeignKey(d => d.SupplierId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("supplier_id");
-            
+
             entity.HasOne(d => d.BookSupplierItem)
                 .WithOne()
                 .HasForeignKey<BookSupplierItem>(b => b.BookSuplierItemId)

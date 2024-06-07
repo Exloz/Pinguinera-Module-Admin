@@ -25,32 +25,33 @@ namespace pinguinera_final_module.Controllers
         {
             var validate = await _quoteValidator.ValidateAsync(payload);
             if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
-            var result = await _quoteService.CalculateQuoteValue(payload, supplierId);
-            return StatusCode(StatusCodes.Status200OK, result);
-            // try
-            // {
-            //     var result = await _quoteService.CalculateQuoteValue(payload, supplierId);
-            //     return StatusCode(StatusCodes.Status200OK, result);
-            // }
-            // catch (Exception e)
-            // {
-            //     return StatusCode(StatusCodes.Status400BadRequest, e.Message);
-            // }
-        }
-        
-        [HttpGet("confirm/{quoteId}")]
-        public async Task<IActionResult> ProcessSaleConfirmation([FromQuery] bool confirmed,
-            Guid quoteId)
-        {
+            
             try
             {
-                var result = await _quoteService.ProcessSaleConfirmation(quoteId, confirmed);
+                var result = await _quoteService.CalculateQuoteValue(payload, supplierId);
                 return StatusCode(StatusCodes.Status200OK, result);
             }
             catch (Exception e)
             {
                 return StatusCode(StatusCodes.Status400BadRequest, e.Message);
             }
+        }
+        
+        [HttpGet("confirm/{quoteId}")]
+        public async Task<IActionResult> ProcessSaleConfirmation([FromQuery] bool confirmed,
+            Guid quoteId)
+        {
+            var result = await _quoteService.ProcessSaleConfirmation(quoteId, confirmed);
+            return StatusCode(StatusCodes.Status200OK, result);
+        //     try
+        //     {
+        //         var result = await _quoteService.ProcessSaleConfirmation(quoteId, confirmed);
+        //         return StatusCode(StatusCodes.Status200OK, result);
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return StatusCode(StatusCodes.Status400BadRequest, e.Message);
+        //     }
         }
     }
 }

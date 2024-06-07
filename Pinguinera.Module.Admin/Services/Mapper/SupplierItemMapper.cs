@@ -92,7 +92,7 @@ public class SupplierItemMapper
 
     public SupplierItemResDTO MapFromModelToItemResDto(SupplierItem itemModel)
     {
-        var type = itemModel.BookSupplierItem is null ? ItemType.NOVEL : ItemType.BOOK;
+        var type = itemModel.BookSupplierItem is not null ? ItemType.BOOK : ItemType.NOVEL;
         return new SupplierItemResDTO
         {
             Id = itemModel.SupplierItemId,
@@ -135,16 +135,18 @@ public class SupplierItemMapper
 
         var novel = itemModel.NovelSupplierItem is null ? null : MapToNovelLibraryModel(itemModel, itemId);
 
-        return new LibraryItem
+        var item = new LibraryItem
         {
             LibraryItemId = itemId,
             Title = itemModel.Title,
             Author = itemModel.Author,
             Stock = stock,
             BorrowedQuantity = 0,
-            BookLibraryItem = book,
-            NovelLibraryItem = novel
         };
+
+        item.BookLibraryItem = book;
+        item.NovelLibraryItem = novel;
+        return item;
     }
 
     private BookLibraryItem MapToBookLibraryModel(SupplierItem itemModel,
