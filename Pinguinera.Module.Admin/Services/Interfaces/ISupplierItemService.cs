@@ -9,4 +9,5 @@ public interface ISupplierItemService
     Task<SupplierItemResDTO?> AddSupplierItem(NovelRequestDTO payload, Guid supplierId);
     Task<List<SupplierItemResDTO>> GetSupplierItems(Guid supplierId);
     Task<List<SupplierItem>> GetItemsById(QuoteRequestDto payload);
+    Task<SupplierItem> GetItemById(Guid id);
 }

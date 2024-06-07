@@ -26,10 +26,11 @@ builder.Services.AddSwaggerGen(options => {
 });
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<Database>(options => options.UseNpgsql(builder.Configuration["SQLConnectionString"]));
+builder.Services.AddDbContext<Database>(options => options.UseNpgsql(builder.Configuration["SQLConnection"]));
 builder.Services.AddScoped<IDatabase, Database>();
 builder.Services.AddScoped<ISupplierItemRepository, SupplierItemRepository>();
 builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
+builder.Services.AddScoped<ILibraryItemRepository, LibraryItemRepository>();
 builder.Services.AddScoped<IQuoteFactory, QuoteFactory>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ISupplierItemService, SupplierItemService>();

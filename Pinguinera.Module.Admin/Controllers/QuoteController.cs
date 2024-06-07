@@ -31,5 +31,22 @@ namespace pinguinera_final_module.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, e.Message);
             }
         }
+        
+        [HttpGet("/{quoteId}")]
+        public async Task<IActionResult> ProcessSaleConfirmation([FromQuery] bool confirmed,
+            Guid quoteId)
+        {
+            // var validate = await _itemValidator.ValidateAsync(payload);
+            // if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
+            try
+            {
+                var result = await _quoteService.ProcessSaleConfirmation(quoteId, confirmed);
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, e.Message);
+            }
+        }
     }
 }

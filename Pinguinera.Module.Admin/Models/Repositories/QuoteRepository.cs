@@ -41,4 +41,41 @@ public class QuoteRepository: IQuoteRepository
 
         return items;
     }
+    
+    public async Task<Quote> GetQuoteById(Guid quoteId)
+    {
+        var quote = await _database.Quotes.FirstOrDefaultAsync(q => q.QuoteId.Equals(quoteId));
+         
+        if (quote == null)
+        {
+            throw new ArgumentException("No quote found for the provided quote ID.");
+        }
+
+        return quote;
+    }
+    
+    public async Task<List<QuoteSupplierItem>> GetQuoteSupplierItemById(Guid quoteId)
+    {
+        var quote = await _database.QuoteSupplierItems
+            .Where(q => q.QuoteQuoteId.Equals(quoteId)).ToListAsync();
+         
+        if (quote == null)
+        {
+            throw new ArgumentException("No quote found for the provided quote ID.");
+        }
+
+        return quote;
+    }
+    
+    public async Task<int> Delete(Quote quote)
+    {
+         _database.Quotes.Remove(quote);
+        return await _database.SaveChangesAsync();
+    }
+    
+    public async Task<int> Delete(QuoteSupplierItem quoteSupplierItem)
+    {
+        _database.QuoteSupplierItems.Remove(quoteSupplierItem);
+        return await _database.SaveChangesAsync();
+    }
 }
