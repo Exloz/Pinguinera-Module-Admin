@@ -48,8 +48,18 @@ public class QuoteService : IQuoteService
         
         quoteModel = await _quoteRepository.GetQuoteById(quoteModel.QuoteId);
         
-        var tasks = SaveQuoteItemsRegisters(payload, itemsModelList, quoteModel);
-        await Task.WhenAll(tasks);
+        foreach (var item in payload.ItemIdList)
+        {
+            var id = item.Id;
+            var itemModel = itemsModelList.FirstOrDefault(i => i.SupplierItemId.Equals(id));
+
+            if (itemModel == null) throw new ArgumentException("No item found for the provided item ID.");
+
+            var quoteSupplierItem = _quoteMapper.MapToQuoteSupplierItem(quoteModel, itemModel, item.Amount);
+            var itemSaved = await _quoteRepository.Save(quoteSupplierItem);
+
+            if (itemSaved == 0) throw new Exception("Error saving quote item");
+        }
 
         var itemResDtoList = itemsModelList
             .Select(i =>
@@ -85,14 +95,14 @@ public class QuoteService : IQuoteService
     private async Task<bool> CancelTransaction(Guid quoteId)
     {
         var quote = await _quoteRepository.GetQuoteById(quoteId);
-        if (await _quoteRepository.Delete(quote) == 0) throw new Exception("Error cancelling  the transaction");
 
         var quoteItems = await _quoteRepository.GetQuoteSupplierItemById(quoteId);
         foreach (var quoteItem in quoteItems)
         {
             if (await _quoteRepository.Delete(quoteItem) == 0) throw new Exception("Error cancelling  the transaction");
         }
-
+        
+        if (await _quoteRepository.Delete(quote) == 0) throw new Exception("Error cancelling  the transaction");
         return true;
     }
 
