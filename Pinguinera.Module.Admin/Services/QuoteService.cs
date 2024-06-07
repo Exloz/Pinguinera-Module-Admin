@@ -74,6 +74,7 @@ public class QuoteService : IQuoteService
             var supplierItemModel = x.SupplierItemSupplierItem;
             var libraryItemModel = _itemMapper.MapFromModelToLibraryItem(supplierItemModel, (int)x.Quantity);
             if (await _libraryRepository.Save(libraryItemModel) == 0) return false;
+            await _supplierItemService.UpdateStock(supplierItemModel.SupplierItemId, (int)x.Quantity);
         }
 
         return true;
