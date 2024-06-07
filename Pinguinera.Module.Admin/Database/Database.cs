@@ -53,7 +53,7 @@ public partial class Database : DbContext, IDatabase
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql(
-            "Host=monorail.proxy.rlwy.net;Port=32785;Database=railway;Username=postgres;Password=ncFRZnJaaUeCLcGAiyaCfHDeSMIyRXur");
+            "Host=roundhouse.proxy.rlwy.net;Port=53251;Database=railway;Username=postgres;Password=BowtptroFIuqlYAHdzutFUmNtVLouAfh");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
