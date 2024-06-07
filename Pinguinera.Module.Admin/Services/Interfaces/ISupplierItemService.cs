@@ -8,7 +8,7 @@ public interface ISupplierItemService
     Task<SupplierItemResDTO?> AddSupplierItem(BookRequestDTO payload, Guid supplierId);
     Task<SupplierItemResDTO?> AddSupplierItem(NovelRequestDTO payload, Guid supplierId);
     Task<List<SupplierItemResDTO>> GetSupplierItems(Guid supplierId);
-    Task<List<SupplierItem>> GetItemsById(QuoteRequestDto payload);
+    Task<List<SupplierItem>> GetItemsById(QuoteRequestDTO payload);
     Task<SupplierItemResDTO?> UpdateStock(Guid itemId, int quantitySold);
     Task<SupplierItem> GetItemById(Guid id);
 }

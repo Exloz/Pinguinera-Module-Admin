@@ -29,7 +29,7 @@ public class QuoteService : IQuoteService
         _libraryRepository = libraryRepository;
     }
 
-    public async Task<QuoteResponseDto> CalculateQuoteValue(QuoteRequestDto payload, Guid supplierId)
+    public async Task<QuoteResponseDTO> CalculateQuoteValue(QuoteRequestDTO payload, Guid supplierId)
     {
         var itemsModelList = await _supplierItemService.GetItemsById(payload);
         var itemsEntityList = itemsModelList
@@ -94,7 +94,7 @@ public class QuoteService : IQuoteService
         return true;
     }
 
-    private IEnumerable<Task<int>> SaveQuoteItemsRegisters(QuoteRequestDto payload,
+    private IEnumerable<Task<int>> SaveQuoteItemsRegisters(QuoteRequestDTO payload,
         List<SupplierItem> itemsModelList, Quote quoteModel)
     {
         var tasks = payload.ItemIdList.Select(async item =>
