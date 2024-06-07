@@ -15,6 +15,5 @@ public class UserRequestDTOValidator : AbstractValidator<UserRequestDTO> {
         RuleFor(x => x.Username).NotEmpty().Length(3, 50);
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.Password).NotEmpty().Length(6, 50);
-        RuleFor(x => x.Role).NotEmpty();
     }
 }
