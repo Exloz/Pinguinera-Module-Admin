@@ -48,6 +48,7 @@ public class SupplierItemRepository : ISupplierItemRepository
     {
         var items = await  _database.SupplierItems
             .Where(i => i.SupplierId.Equals(supplierId))
+            .Where(i => i.Stock>0)
             .Include(i => i.BookSupplierItem)
             .Include(i => i.NovelSupplierItem)
             .ToListAsync();

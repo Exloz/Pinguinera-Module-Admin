@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using pinguinera_final_module.Models.DataTransferObjects;
@@ -25,7 +26,7 @@ namespace pinguinera_final_module.Controllers
         {
             var validate = await _quoteValidator.ValidateAsync(payload);
             if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
-            
+
             try
             {
                 var result = await _quoteService.CalculateQuoteValue(payload, supplierId);
@@ -36,22 +37,19 @@ namespace pinguinera_final_module.Controllers
                 return StatusCode(StatusCodes.Status400BadRequest, e.Message);
             }
         }
-        
-        [HttpGet("confirm/{quoteId}")]
-        public async Task<IActionResult> ProcessSaleConfirmation([FromQuery] bool confirmed,
-            Guid quoteId)
+
+        [HttpPost("confirm")]
+        public async Task<IActionResult> ProcessSaleConfirmation([FromBody] QuoteConfirmDTO payload)
         {
-            var result = await _quoteService.ProcessSaleConfirmation(quoteId, confirmed);
-            return StatusCode(StatusCodes.Status200OK, result);
-        //     try
-        //     {
-        //         var result = await _quoteService.ProcessSaleConfirmation(quoteId, confirmed);
-        //         return StatusCode(StatusCodes.Status200OK, result);
-        //     }
-        //     catch (Exception e)
-        //     {
-        //         return StatusCode(StatusCodes.Status400BadRequest, e.Message);
-        //     }
+            try
+            {
+                var result = await _quoteService.ProcessSaleConfirmation(payload.QuoteId, payload.Confirmed);
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, e.Message);
+            }
         }
     }
 }
