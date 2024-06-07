@@ -8,7 +8,7 @@ namespace pinguinera_final_module.Services.Mapper;
 
 public class SupplierItemMapper
 {
-    public  SupplierItemResDTO MapToSupplierItemResDto(BookRequestDTO payload)
+    public SupplierItemResDTO MapToSupplierItemResDto(BookRequestDTO payload)
     {
         return new SupplierItemResDTO
         {
@@ -18,8 +18,8 @@ public class SupplierItemMapper
             ItemType = ItemType.BOOK
         };
     }
-    
-    public  SupplierItemResDTO MapToSupplierItemResDto(NovelRequestDTO payload)
+
+    public SupplierItemResDTO MapToSupplierItemResDto(NovelRequestDTO payload)
     {
         return new SupplierItemResDTO
         {
@@ -29,8 +29,8 @@ public class SupplierItemMapper
             ItemType = ItemType.NOVEL
         };
     }
-    
-    public SupplierItem MapToItemModel(BookRequestDTO payload, 
+
+    public SupplierItem MapToItemModel(BookRequestDTO payload,
         Supplier supplier, double sellPrice)
     {
         var itemId = Guid.NewGuid();
@@ -43,30 +43,30 @@ public class SupplierItemMapper
             BasePrice = payload.BasePrice,
             SellPrice = sellPrice,
             Stock = payload.Quantity,
-            BookSupplierItem = MapToBookModel(payload, itemId),
-            Supplier = supplier,
-        };
-    }
-    
-    public  SupplierItem MapToItemModel(NovelRequestDTO payload, 
-        Supplier supplier, double sellPrice)
-    {
-        var itemId = Guid.NewGuid();
-        return new SupplierItem
-        {
-            SupplierItemId = itemId,
-            SupplierId = supplier.SupplierId,
-            Title = payload.Title,
-            Author = payload.Author,
-            BasePrice = payload.BasePrice,
-            SellPrice = sellPrice,
-            Stock = payload.Quantity,
-            NovelSupplierItem = MapToNovelModel(payload, itemId),
+            BookSupplierItem = MapToBookSupplierModel(payload, itemId),
             Supplier = supplier,
         };
     }
 
-    private BookSupplierItem MapToBookModel(BookRequestDTO payload, 
+    public SupplierItem MapToItemModel(NovelRequestDTO payload,
+        Supplier supplier, double sellPrice)
+    {
+        var itemId = Guid.NewGuid();
+        return new SupplierItem
+        {
+            SupplierItemId = itemId,
+            SupplierId = supplier.SupplierId,
+            Title = payload.Title,
+            Author = payload.Author,
+            BasePrice = payload.BasePrice,
+            SellPrice = sellPrice,
+            Stock = payload.Quantity,
+            NovelSupplierItem = MapToNovelSupplierModel(payload, itemId),
+            Supplier = supplier,
+        };
+    }
+
+    private BookSupplierItem MapToBookSupplierModel(BookRequestDTO payload,
         Guid itemId)
     {
         return new BookSupplierItem
@@ -75,10 +75,9 @@ public class SupplierItemMapper
             KnowledgeArea = payload.KnowledgeArea,
             Pages = payload.Pages
         };
-
     }
-    
-    private NovelSupplierItem MapToNovelModel(NovelRequestDTO payload, 
+
+    private NovelSupplierItem MapToNovelSupplierModel(NovelRequestDTO payload,
         Guid itemId)
     {
         return new NovelSupplierItem
@@ -87,10 +86,9 @@ public class SupplierItemMapper
             SuggestedAge = payload.SuggestedAge,
             Genre = payload.Genre
         };
-
     }
-    
-    public  SupplierItemResDTO MapFromModelToItemResDto(SupplierItem itemModel)
+
+    public SupplierItemResDTO MapFromModelToItemResDto(SupplierItem itemModel)
     {
         var type = itemModel.BookSupplierItem is null ? ItemType.NOVEL : ItemType.BOOK;
         return new SupplierItemResDTO
@@ -99,12 +97,12 @@ public class SupplierItemMapper
             Title = itemModel.Title,
             Author = itemModel.Author,
             SellPrice = itemModel.SellPrice,
-            Stock = (int) Math.Round(itemModel.Stock, 0),
+            Stock = (int)Math.Round(itemModel.Stock, 0),
             ItemType = type
         };
     }
-    
-    public  QuoteItemResDto MapToQuoteItemResDto(SupplierItem itemModel, SupplierItemEntity itemEntity)
+
+    public QuoteItemResDto MapToQuoteItemResDto(SupplierItem itemModel, SupplierItemEntity itemEntity)
     {
         var type = itemModel.BookSupplierItem is null ? ItemType.NOVEL : ItemType.BOOK;
         return new QuoteItemResDto
@@ -116,10 +114,9 @@ public class SupplierItemMapper
             PriceDiscount = itemEntity.PriceDiscount,
             Price = itemEntity.FinalPrice
         };
-
     }
-    
-    public  SupplierItemEntity MapFromModelToItemEntity(SupplierItem itemModel)
+
+    public SupplierItemEntity MapFromModelToItemEntity(SupplierItem itemModel)
     {
         return new SupplierItemEntity
         (
@@ -127,5 +124,46 @@ public class SupplierItemMapper
             itemModel.BasePrice,
             itemModel.SellPrice
         );
+    }
+
+    public LibraryItem MapFromModelToLibraryItem(SupplierItem itemModel, int stock)
+    {
+        var itemId = Guid.NewGuid();
+        var book = itemModel.BookSupplierItem is null ? null : MapToBookLibraryModel(itemModel, itemId);
+
+        var novel = itemModel.NovelSupplierItem is null ? null : MapToNovelLibraryModel(itemModel, itemId);
+
+        return new LibraryItem
+        {
+            LibraryItemId = itemId,
+            Title = itemModel.Title,
+            Author = itemModel.Author,
+            Stock = stock,
+            BorrowedQuantity = 0,
+            BookLibraryItem = book,
+            NovelLibraryItem = novel
+        };
+    }
+
+    private BookLibraryItem MapToBookLibraryModel(SupplierItem itemModel,
+        Guid itemId)
+    {
+        return new BookLibraryItem
+        {
+            BookLibraryItemId = itemId,
+            KnowledgeArea = itemModel.BookSupplierItem.KnowledgeArea,
+            Pages = itemModel.BookSupplierItem.Pages
+        };
+    }
+
+    private NovelLibraryItem MapToNovelLibraryModel(SupplierItem itemModel,
+        Guid itemId)
+    {
+        return new NovelLibraryItem
+        {
+            NovelLibraryItemId = itemId,
+            Genre = itemModel.NovelSupplierItem.Genre,
+            SuggestedAge = itemModel.NovelSupplierItem.SuggestedAge
+        };
     }
 }

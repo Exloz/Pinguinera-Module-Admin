@@ -103,10 +103,6 @@ public partial class Database : DbContext, IDatabase
                 .HasColumnName("knowledgeArea");
             entity.Property(e => e.Pages).HasColumnName("pages");
 
-            entity.HasOne(d => d.BookLibraryItemNavigation).WithOne(p => p.BookLibraryItem)
-                .HasForeignKey<BookLibraryItem>(d => d.BookLibraryItemId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("bookLibraryItemId");
         });
 
         modelBuilder.Entity<BookSupplierItem>(entity =>
@@ -192,22 +188,17 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<NovelLibraryItem>(entity =>
         {
-            entity.HasKey(e => e.NovelLibraryItem1).HasName("NovelLibraryItem_pkey");
+            entity.HasKey(e => e.NovelLibraryItemId).HasName("NovelLibraryItem_pkey");
 
             entity.ToTable("NovelLibraryItem");
 
-            entity.Property(e => e.NovelLibraryItem1)
+            entity.Property(e => e.NovelLibraryItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
                 .HasColumnName("novelLibraryItem");
             entity.Property(e => e.Genre)
                 .HasColumnType("character varying")
                 .HasColumnName("genre");
             entity.Property(e => e.SuggestedAge).HasColumnName("suggestedAge");
-
-            entity.HasOne(d => d.NovelLibraryItem1Navigation).WithOne(p => p.NovelLibraryItem)
-                .HasForeignKey<NovelLibraryItem>(d => d.NovelLibraryItem1)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("novelLibraryItem");
         });
 
         modelBuilder.Entity<NovelSupplierItem>(entity =>
