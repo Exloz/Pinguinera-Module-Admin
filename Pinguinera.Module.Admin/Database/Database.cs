@@ -340,7 +340,6 @@ public partial class Database : DbContext, IDatabase
             entity.ToTable("user");
 
             entity.Property(e => e.UserId)
-                .HasDefaultValueSql("uuid_generate_v4()")
                 .HasColumnName("user_id");
             entity.Property(e => e.Email)
                 .HasColumnType("character varying")
@@ -349,7 +348,7 @@ public partial class Database : DbContext, IDatabase
                 .HasColumnType("character varying")
                 .HasColumnName("password");
             entity.Property(e => e.Salt)
-                .HasColumnType("character varying")
+                .HasColumnType("character bytea")
                 .HasColumnName("salt");
             entity.Property(e => e.RefreshToken)
                 .HasColumnType("character varying")
