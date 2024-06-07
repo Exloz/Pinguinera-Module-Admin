@@ -29,6 +29,14 @@ public class UserService : IUserService {
 
         return UserMapper.MapToUserResponseDTO(user);
     }
+    
+    public async Task<User> GetUserModelById(Guid id) {
+        var user = await _userRepository.Users.FirstOrDefaultAsync(u => u.UserId == id);
+
+        if (user == null) throw new AggregateException("User not found");
+
+        return user;
+    }
 
     public async Task<Supplier> GetSupplierById(Guid id) {
         var supplier = await _userRepository.Suppliers.FirstOrDefaultAsync(u => u.SupplierId == id);

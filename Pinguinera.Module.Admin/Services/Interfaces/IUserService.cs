@@ -11,4 +11,6 @@ public interface IUserService
     Task<UserResponseDTO> AddUser(UserRequestDTO userRequest);
     Task<UserResponseDTO> UpdateUser(Guid id, UserUpdateDTO userUpdate);
     Task<Supplier> GetSupplierById(Guid id);
+    Task<User> GetUserModelById(Guid id);
+
 }
