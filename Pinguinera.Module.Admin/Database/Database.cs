@@ -237,20 +237,21 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<QuoteSupplierItem>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("quote_supplier_item");
+            entity.HasKey(e => new { e.QuoteQuoteId, e.SupplierItemSupplierItemId });
+            entity.ToTable("quote_supplier_item");
 
             entity.Property(e => e.Quantity).HasColumnName("quantity");
             entity.Property(e => e.QuoteQuoteId).HasColumnName("quote_quote_id");
             entity.Property(e => e.SupplierItemSupplierItemId).HasColumnName("supplier_item_supplier_item_id");
 
-            entity.HasOne(d => d.QuoteQuote).WithMany()
+            entity.HasOne(d => d.QuoteQuote)
+                .WithMany()
                 .HasForeignKey(d => d.QuoteQuoteId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Quote_SupplierItem_Quote_quoteId_fkey");
 
-            entity.HasOne(d => d.SupplierItemSupplierItem).WithMany()
+            entity.HasOne(d => d.SupplierItemSupplierItem)
+                .WithMany()
                 .HasForeignKey(d => d.SupplierItemSupplierItemId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Quote_SupplierItem_SupplierItem_supplierItemId_fkey");
