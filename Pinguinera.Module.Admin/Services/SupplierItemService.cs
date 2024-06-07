@@ -10,26 +10,26 @@ namespace pinguinera_final_module.Services;
 
 public class SupplierItemService : ISupplierItemService
 {
-    private readonly ISupplierItemRepository _literatureRepository;
+    private readonly ISupplierItemRepository _supplierItemRepository;
     private readonly SupplierItemMapper _itemMapper = new();
     private readonly IUserService _userService;
 
-    public SupplierItemService(ISupplierItemRepository literatureRepository, IUserService userService)
+    public SupplierItemService(ISupplierItemRepository supplierItemRepository, IUserService userService)
     {
-        _literatureRepository = literatureRepository;
+        _supplierItemRepository = supplierItemRepository;
         _userService = userService;
     }
 
     public async Task<SupplierItemResDTO?> AddSupplierItem(BookRequestDTO payload, Guid supplierId)
     {
-        await _literatureRepository.VerifyUniqueTitle(payload.Title, supplierId);
+        await _supplierItemRepository.VerifyUniqueTitle(payload.Title, supplierId);
 
         var itemEntity = new SupplierItemEntity(payload.Title, payload.BasePrice, ItemType.BOOK);
         itemEntity.CalculateSellPrice();
 
         var supplier = await _userService.GetSupplierById(supplierId);
         var itemModel = _itemMapper.MapToItemModel(payload, supplier, itemEntity.SellPrice);
-        if (await _literatureRepository.Save(itemModel) == 0) return null;
+        if (await _supplierItemRepository.Save(itemModel) == 0) return null;
 
         var responseDto = _itemMapper.MapToSupplierItemResDto(payload);
         responseDto.SellPrice = itemEntity.SellPrice;
@@ -39,14 +39,14 @@ public class SupplierItemService : ISupplierItemService
     
     public async Task<SupplierItemResDTO?> AddSupplierItem(NovelRequestDTO payload, Guid supplierId)
     {
-        await _literatureRepository.VerifyUniqueTitle(payload.Title, supplierId);
+        await _supplierItemRepository.VerifyUniqueTitle(payload.Title, supplierId);
 
         var itemEntity = new SupplierItemEntity(payload.Title, payload.BasePrice, ItemType.NOVEL);
         itemEntity.CalculateSellPrice();
 
         var supplier = await _userService.GetSupplierById(supplierId);
         var itemModel = _itemMapper.MapToItemModel(payload, supplier, itemEntity.SellPrice);
-        if (await _literatureRepository.Save(itemModel) == 0) return null;
+        if (await _supplierItemRepository.Save(itemModel) == 0) return null;
 
         var responseDto = _itemMapper.MapToSupplierItemResDto(payload);
         responseDto.SellPrice = itemEntity.SellPrice;
@@ -56,7 +56,7 @@ public class SupplierItemService : ISupplierItemService
 
     public async Task<List<SupplierItemResDTO>> GetSupplierItems(Guid supplierId)
     {
-        var itemsLiteratureList = await _literatureRepository.GetItemsBySupplier(supplierId);
+        var itemsLiteratureList = await _supplierItemRepository.GetItemsBySupplier(supplierId);
         if (itemsLiteratureList is null)
         {
             throw new ArgumentException("There are no literature items registered for this supplier");
@@ -75,7 +75,7 @@ public class SupplierItemService : ISupplierItemService
         {
             for (var i = 0; i < x.Amount; i++)
             {
-                var supplierItem = await _literatureRepository.GetItemById(x.Id);
+                var supplierItem = await _supplierItemRepository.GetItemById(x.Id);
                 itemsList.Add(supplierItem);
             }
         }
@@ -86,7 +86,7 @@ public class SupplierItemService : ISupplierItemService
 
     public async Task<SupplierItemResDTO?> UpdateStock(Guid itemId, int quantitySold)
     {
-        var supplierItem = await _literatureRepository.GetItemById(itemId);
+        var supplierItem = await _supplierItemRepository.GetItemById(itemId);
         supplierItem.Stock -= quantitySold;
 
         if (supplierItem.Stock < 0)
@@ -94,10 +94,16 @@ public class SupplierItemService : ISupplierItemService
             throw new ArgumentException("Unable to complete the sale due to insufficient stock"); 
         }
         
-        if (await _literatureRepository.Save(supplierItem) == 0) return null;
+        if (await _supplierItemRepository.Save(supplierItem) == 0) return null;
 
         var itemResDto = _itemMapper.MapFromModelToItemResDto(supplierItem);
         return itemResDto;
+    }
+    
+    public async Task<SupplierItem> GetItemById(Guid id)
+    {
+        var supplierItem = await _supplierItemRepository.GetItemById(id);
+        return supplierItem;
     }
     
 }

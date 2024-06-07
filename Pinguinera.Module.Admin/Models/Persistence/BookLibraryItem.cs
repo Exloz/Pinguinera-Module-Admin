@@ -8,5 +8,4 @@ public partial class BookLibraryItem
 
     public string KnowledgeArea { get; set; } = null!;
 
-    public virtual LibraryItem BookLibraryItemNavigation { get; set; } = null!;
 }
