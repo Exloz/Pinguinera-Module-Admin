@@ -1,3 +1,4 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using pinguinera_final_module.Models.DataTransferObjects;
@@ -11,17 +12,22 @@ namespace pinguinera_final_module.Controllers;
 public class SupplierItemsController: ControllerBase
 {
     private readonly ISupplierItemService _supplierItemService;
+    private readonly IValidator<BookRequestDTO> _bookValidator;
+    private readonly IValidator<NovelRequestDTO> _novelValidator;
 
-    public SupplierItemsController(ISupplierItemService supplierItemService)
+    public SupplierItemsController(ISupplierItemService supplierItemService,
+        IValidator<BookRequestDTO> bookValidator, IValidator<NovelRequestDTO> novelValidator)
     {
         _supplierItemService = supplierItemService;
+        _bookValidator = bookValidator;
+        _novelValidator = novelValidator;
     }
 
     [HttpPost("AddBook/{supplierId}")]
     public async Task<IActionResult> AddSupplierItem( [FromBody] BookRequestDTO payload, Guid supplierId)
     {
-        // var validate = await _itemValidator.ValidateAsync(payload);
-        // if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
+        var validate = await _bookValidator.ValidateAsync(payload);
+        if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
 
         try
         {
@@ -42,8 +48,8 @@ public class SupplierItemsController: ControllerBase
     [HttpPost("AddNovel/{supplierId}")]
     public async Task<IActionResult> AddSupplierItem( [FromBody] NovelRequestDTO payload, Guid supplierId)
     {
-        // var validate = await _itemValidator.ValidateAsync(payload);
-        // if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
+        var validate = await _novelValidator.ValidateAsync(payload);
+        if (!validate.IsValid) return StatusCode(StatusCodes.Status400BadRequest, validate.Errors);
 
         try
         {

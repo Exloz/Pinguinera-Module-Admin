@@ -7,10 +7,10 @@ namespace pinguinera_final_module.Services.Mapper;
 
 public class QuoteMapper
 {
-    public QuoteResponseDto MapToQuoteResDto(QuoteEntity quote, Guid quoteId)
+    public QuoteResponseDTO MapToQuoteResDto(QuoteEntity quote, Guid quoteId)
     {
         var type = quote is RetailEntity ? QuoteType.RETAIL : QuoteType.WHOLESALE;
-        return new QuoteResponseDto
+        return new QuoteResponseDTO
         {
             QuoteId = quoteId,
             Type = type,

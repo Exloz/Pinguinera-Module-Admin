@@ -2,7 +2,7 @@ using pinguinera_final_module.Shared.Enums;
 
 namespace WebApplication1.DTOs;
 
-public struct QuoteItemResDto
+public struct QuoteItemResDTO
 {
     public string Title { get; set; }
     public ItemType ItemType { get; set; }

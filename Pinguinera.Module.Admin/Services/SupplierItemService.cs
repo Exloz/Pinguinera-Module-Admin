@@ -68,7 +68,7 @@ public class SupplierItemService : ISupplierItemService
         return itemsBySupplier;
     }
 
-    public async Task<List<SupplierItem>> GetItemsById(QuoteRequestDto payload)
+    public async Task<List<SupplierItem>> GetItemsById(QuoteRequestDTO payload)
     {
         List<SupplierItem> itemsList = [];
         foreach (var x in payload.ItemIdList)
