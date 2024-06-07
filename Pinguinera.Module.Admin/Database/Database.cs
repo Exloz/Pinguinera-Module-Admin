@@ -102,8 +102,6 @@ public partial class Database : DbContext, IDatabase
                 .HasColumnType("character varying")
                 .HasColumnName("knowledge_area");
             entity.Property(e => e.Pages).HasColumnName("pages");
-            
-            
         });
 
         modelBuilder.Entity<BookSupplierItem>(entity =>
@@ -138,7 +136,16 @@ public partial class Database : DbContext, IDatabase
             entity.Property(e => e.Title)
                 .HasColumnType("character varying")
                 .HasColumnName("title");
-            
+
+            entity.HasOne(e => e.BookLibraryItem)
+                .WithOne(b => b.LibraryItem)
+                .HasForeignKey<BookLibraryItem>(b => b.BookLibraryItemId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(e => e.NovelLibraryItem)
+                .WithOne(n => n.LibraryItem)
+                .HasForeignKey<NovelLibraryItem>(n => n.NovelLibraryItemId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<LibraryItemLoan>(entity =>
@@ -195,7 +202,7 @@ public partial class Database : DbContext, IDatabase
 
             entity.Property(e => e.NovelLibraryItemId)
                 .HasDefaultValueSql("uuid_generate_v4()")
-                .HasColumnName("novel_library_item");
+                .HasColumnName("novel_library_item_id");
             entity.Property(e => e.Genre)
                 .HasColumnType("character varying")
                 .HasColumnName("genre");

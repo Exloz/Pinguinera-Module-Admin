@@ -7,5 +7,6 @@ public partial class BookLibraryItem
     public decimal Pages { get; set; }
 
     public string KnowledgeArea { get; set; } = null!;
+    public virtual LibraryItem LibraryItem { get; set; } = null!;
 
 }

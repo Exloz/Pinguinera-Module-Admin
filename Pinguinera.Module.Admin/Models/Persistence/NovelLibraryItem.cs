@@ -7,5 +7,6 @@ public partial class NovelLibraryItem
     public string Genre { get; set; } = null!;
 
     public decimal SuggestedAge { get; set; }
+    public virtual LibraryItem LibraryItem { get; set; } = null!;
 
 }

@@ -28,7 +28,19 @@ public class SupplierItemRepository : ISupplierItemRepository
     
     public async Task<int> Save(SupplierItem item)
     {
-        await _database.SupplierItems.AddAsync(item);
+        var existingItem = await _database.SupplierItems
+            .AsNoTracking()
+            .FirstOrDefaultAsync(si => si.SupplierItemId == item.SupplierItemId);
+
+        if (existingItem == null)
+        {
+            await _database.SupplierItems.AddAsync(item);
+        }
+        else
+        {
+            _database.SupplierItems.Update(item);
+        }
+
         return await _database.SaveChangesAsync();
     }
 

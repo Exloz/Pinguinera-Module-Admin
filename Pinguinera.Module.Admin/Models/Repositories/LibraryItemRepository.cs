@@ -15,18 +15,19 @@ public class LibraryItemRepository: ILibraryItemRepository
     public async Task<int> Save(LibraryItem item)
     {
         await _database.LibraryItems.AddAsync(item);
+
         if (item.BookLibraryItem != null)
         {
-            item.BookLibraryItem.BookLibraryItemId = item.LibraryItemId; // Ensure the FK is set correctly
+            item.BookLibraryItem.BookLibraryItemId = item.LibraryItemId;
             await _database.BookLibraryItems.AddAsync(item.BookLibraryItem);
         }
 
         if (item.NovelLibraryItem != null)
         {
-            item.NovelLibraryItem.NovelLibraryItemId = item.LibraryItemId; // Ensure the FK is set correctly
+            item.NovelLibraryItem.NovelLibraryItemId = item.LibraryItemId;
             await _database.NovelLibraryItems.AddAsync(item.NovelLibraryItem);
         }
-        
+
         return await _database.SaveChangesAsync();
     }
 }
