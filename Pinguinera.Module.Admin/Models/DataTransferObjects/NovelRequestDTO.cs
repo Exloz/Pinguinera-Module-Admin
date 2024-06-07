@@ -1,3 +1,5 @@
+using FluentValidation;
+
 namespace pinguinera_final_module.Models.DataTransferObjects;
 
 public struct NovelRequestDTO
@@ -10,14 +12,16 @@ public struct NovelRequestDTO
     public string Genre { get; set; }
 }
 
-// public class ItemValidator: AbstractValidator<NovelSupplierDTO>
-// {
-//     public ItemValidator()
-//     {
-//         RuleFor(x => x).NotEmpty();
-//         RuleFor(x => x.Title).NotEmpty().MinimumLength(4);
-//         RuleFor(x => x.OriginalPrice).NotEmpty().GreaterThan(0);
-//         RuleFor(x => x.ItemType).NotNull().IsInEnum();
-//
-//     }
-// }
+public class NovelValidator : AbstractValidator<NovelRequestDTO>
+{
+    public NovelValidator()
+    {
+        RuleFor(x => x).NotEmpty();
+        RuleFor(x => x.Title).NotEmpty().MinimumLength(4);
+        RuleFor(x => x.Author).NotEmpty().MinimumLength(4);
+        RuleFor(x => x.BasePrice).NotEmpty().GreaterThan(0);
+        RuleFor(x => x.Quantity).NotEmpty().GreaterThan(0);
+        RuleFor(x => x.SuggestedAge).NotEmpty().GreaterThan(0);
+        RuleFor(x => x.Genre).NotEmpty().MinimumLength(4);
+    }
+}
