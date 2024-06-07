@@ -50,6 +50,6 @@ public class SupplierItemEntity
         FinalPrice = Math.Round(FinalPrice, 2);
 
         PriceIncrement = adjustment > 0 ? adjustment : 0;
-        PriceDiscount = adjustment > 0 ? 0 : -adjustment;
+        PriceDiscount = adjustment >= 0 ? 0 : -adjustment;
     }
 }
