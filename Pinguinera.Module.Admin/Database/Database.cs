@@ -49,6 +49,8 @@ public partial class Database : DbContext, IDatabase
     {
         return base.SaveChangesAsync(cancellationToken);
     }
+    
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseNpgsql("Host=viaduct.proxy.rlwy.net;Port=59980;Database=railway;Username=postgres;Password=yYcfUDUZCdlmsMgWhCbGgsmQDjuShBZO");
@@ -225,17 +227,17 @@ public partial class Database : DbContext, IDatabase
 
         modelBuilder.Entity<Quote>(entity =>
         {
-            entity.HasKey(e => e.QuoteId).HasName("Quote_pkey");
+            entity.HasKey(e => e.QuoteId).HasName("quote_pkey");
 
-            entity.ToTable("Quote");
+            entity.ToTable("quote");
 
             entity.Property(e => e.QuoteId)
                 .HasDefaultValueSql("uuid_generate_v4()")
                 .HasColumnName("quoteId");
             entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
-            entity.Property(e => e.RetailOverPrice).HasColumnName("retailOverPrice");
-            entity.Property(e => e.SeniorityDiscount).HasColumnName("seniorityDiscount");
-            entity.Property(e => e.TotalPrice).HasColumnName("totalPrice");
+            entity.Property(e => e.RetailOverPrice).HasColumnName("retail_over_price");
+            entity.Property(e => e.SeniorityDiscount).HasColumnName("seniority_discount");
+            entity.Property(e => e.TotalPrice).HasColumnName("total_price");
             entity.Property(e => e.Type)
                 .HasColumnType("character varying")
                 .HasColumnName("type");
@@ -246,11 +248,11 @@ public partial class Database : DbContext, IDatabase
         {
             entity
                 .HasNoKey()
-                .ToTable("Quote_SupplierItem");
+                .ToTable("quote_supplier_item");
 
             entity.Property(e => e.Quantity).HasColumnName("quantity");
-            entity.Property(e => e.QuoteQuoteId).HasColumnName("Quote_quoteId");
-            entity.Property(e => e.SupplierItemSupplierItemId).HasColumnName("SupplierItem_supplierItemId");
+            entity.Property(e => e.QuoteQuoteId).HasColumnName("quote_quote_id");
+            entity.Property(e => e.SupplierItemSupplierItemId).HasColumnName("supplier_item_supplier_item_id");
 
             entity.HasOne(d => d.QuoteQuote).WithMany()
                 .HasForeignKey(d => d.QuoteQuoteId)
